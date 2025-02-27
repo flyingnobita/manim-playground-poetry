@@ -41,3 +41,6 @@ htmlcov/
 venv/
 ENV/
 env/
+
+# Manim
+**/partial_movie_files/**
