@@ -1,1 +1,1 @@
-manim -pql example.py FibonacciSequence
+manim -pql 2pc.py XORGateAnimation
