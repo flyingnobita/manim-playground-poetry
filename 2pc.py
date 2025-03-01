@@ -523,155 +523,122 @@ class SingleGarbledGateAnimation(Scene):
     def create_and_gate(self, position):
         # Create AND gate symbol
         gate = VGroup()
-        
         # Gate body
         body = Rectangle(height=1.2, width=1.5, color=WHITE)
         body.set_fill(color=BLUE, opacity=0.2)
-        
         # Gate label
         label = Text("AND", font_size=24)
         label.move_to(body.get_center())
-        
         # Input wires
         input_a = Line(LEFT * 1.5, LEFT * 0.75, color=WHITE)
         input_a.move_to(body.get_left() + UP * 0.3)
-        
         input_b = Line(LEFT * 1.5, LEFT * 0.75, color=WHITE)
         input_b.move_to(body.get_left() + DOWN * 0.3)
-        
         # Output wire
         output = Line(RIGHT * 0.75, RIGHT * 1.5, color=WHITE)
         output.move_to(body.get_right())
-        
         # Input labels
         label_a = Text("A", font_size=20)
         label_a.next_to(input_a, LEFT, buff=0.2)
-        
         label_b = Text("B", font_size=20)
         label_b.next_to(input_b, LEFT, buff=0.2)
-        
         # Output label
         label_out = Text("A∧B", font_size=20)
         label_out.next_to(output, RIGHT, buff=0.2)
-        
-        gate.add(body, label, input_a, input_b, output, label_a, label_b, label_out)
+        gate.add(body, label, input_a, input_b, output, label_a, label_b,
+                 label_out)
         gate.move_to(position)
-        
         return gate
 
     def create_truth_table(self, position):
         # Create a truth table for AND gate
         table = VGroup()
-        
         # Table headers
         header_a = Text("A", font_size=20)
         header_b = Text("B", font_size=20)
         header_out = Text("A∧B", font_size=20)
-        
         # Table rows
         row1_a = Text("0", font_size=20)
         row1_b = Text("0", font_size=20)
         row1_out = Text("0", font_size=20)
-        
         row2_a = Text("0", font_size=20)
         row2_b = Text("1", font_size=20)
         row2_out = Text("0", font_size=20)
-        
         row3_a = Text("1", font_size=20)
         row3_b = Text("0", font_size=20)
         row3_out = Text("0", font_size=20)
-        
         row4_a = Text("1", font_size=20)
         row4_b = Text("1", font_size=20)
         row4_out = Text("1", font_size=20)
-        
         # Arrange headers
         headers = VGroup(header_a, header_b, header_out)
         headers.arrange(RIGHT, buff=0.5)
-        
         # Arrange rows
         row1 = VGroup(row1_a, row1_b, row1_out)
         row1.arrange(RIGHT, buff=0.5)
         row1.next_to(headers, DOWN, buff=0.3)
-        
         row2 = VGroup(row2_a, row2_b, row2_out)
         row2.arrange(RIGHT, buff=0.5)
         row2.next_to(row1, DOWN, buff=0.3)
-        
         row3 = VGroup(row3_a, row3_b, row3_out)
         row3.arrange(RIGHT, buff=0.5)
         row3.next_to(row2, DOWN, buff=0.3)
-        
         row4 = VGroup(row4_a, row4_b, row4_out)
         row4.arrange(RIGHT, buff=0.5)
         row4.next_to(row3, DOWN, buff=0.3)
-        
         # Add all elements to the table
         table.add(headers, row1, row2, row3, row4)
-        
         # Add a border around the table
         border = SurroundingRectangle(table, color=WHITE, buff=0.2)
         table.add(border)
-        
         table.move_to(position)
         return table
 
     def create_garbled_table(self, position):
         # Create a garbled table
         garbled_table = VGroup()
-        
         # Table title
         title = Text("Garbled Truth Table", font_size=24)
-        
         # Create encrypted entries
         entry1 = Rectangle(height=0.6, width=2.5, color=WHITE)
         entry1.set_fill(color=RED, opacity=0.2)
         entry1_label = Text("Enc(k₀ᵃ, k₀ᵇ, k₀ᵒᵘᵗ)", font_size=16)
         entry1_label.move_to(entry1.get_center())
         entry1_group = VGroup(entry1, entry1_label)
-        
         entry2 = Rectangle(height=0.6, width=2.5, color=WHITE)
         entry2.set_fill(color=RED, opacity=0.2)
         entry2_label = Text("Enc(k₀ᵃ, k₁ᵇ, k₀ᵒᵘᵗ)", font_size=16)
         entry2_label.move_to(entry2.get_center())
         entry2_group = VGroup(entry2, entry2_label)
-        
         entry3 = Rectangle(height=0.6, width=2.5, color=WHITE)
         entry3.set_fill(color=RED, opacity=0.2)
         entry3_label = Text("Enc(k₁ᵃ, k₀ᵇ, k₀ᵒᵘᵗ)", font_size=16)
         entry3_label.move_to(entry3.get_center())
         entry3_group = VGroup(entry3, entry3_label)
-        
         entry4 = Rectangle(height=0.6, width=2.5, color=WHITE)
         entry4.set_fill(color=GREEN, opacity=0.2)
         entry4_label = Text("Enc(k₁ᵃ, k₁ᵇ, k₁ᵒᵘᵗ)", font_size=16)
         entry4_label.move_to(entry4.get_center())
         entry4_group = VGroup(entry4, entry4_label)
-        
         # Arrange entries
-        entries = VGroup(entry1_group, entry2_group, entry3_group, entry4_group)
+        entries = VGroup(entry1_group, entry2_group, entry3_group,
+                         entry4_group)
         entries.arrange(DOWN, buff=0.3)
-        
         # Add title above entries
         title.next_to(entries, UP, buff=0.3)
-        
         # Add all elements to the garbled table
         garbled_table.add(title, entries)
-        
         # Add a border around the table
         border = SurroundingRectangle(garbled_table, color=WHITE, buff=0.2)
         garbled_table.add(border)
-        
         garbled_table.move_to(position)
         return garbled_table
 
     def create_label_mapping(self, position):
         # Create a mapping of wire labels
         mapping = VGroup()
-        
         # Title
         title = Text("Wire Label Mapping", font_size=24)
-        
         # Create mappings
         map_a0 = Text("A=0 → k₀ᵃ", font_size=18)
         map_a1 = Text("A=1 → k₁ᵃ", font_size=18)
@@ -679,25 +646,19 @@ class SingleGarbledGateAnimation(Scene):
         map_b1 = Text("B=1 → k₁ᵇ", font_size=18)
         map_out0 = Text("OUT=0 → k₀ᵒᵘᵗ", font_size=18)
         map_out1 = Text("OUT=1 → k₁ᵒᵘᵗ", font_size=18)
-        
         # Arrange mappings
         input_maps = VGroup(map_a0, map_a1, map_b0, map_b1)
         input_maps.arrange(DOWN, buff=0.2, aligned_edge=LEFT)
-        
         output_maps = VGroup(map_out0, map_out1)
         output_maps.arrange(DOWN, buff=0.2, aligned_edge=LEFT)
         output_maps.next_to(input_maps, DOWN, buff=0.5)
-        
         # Add title above mappings
         title.next_to(VGroup(input_maps, output_maps), UP, buff=0.3)
-        
         # Add all elements to the mapping
         mapping.add(title, input_maps, output_maps)
-        
         # Add a border around the mapping
         border = SurroundingRectangle(mapping, color=WHITE, buff=0.2)
         mapping.add(border)
-        
         mapping.move_to(position)
         return mapping
 
@@ -705,28 +666,22 @@ class SingleGarbledGateAnimation(Scene):
         step_text = Text("Step 1: Alice creates an AND gate", font_size=30)
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
-        
         # Create AND gate
         gate = self.create_and_gate(LEFT * 2)
-        
         # Create truth table
         truth_table = self.create_truth_table(RIGHT * 2)
-        
         # Show Alice creating the gate and truth table
         self.play(Create(gate), Create(truth_table))
         self.wait(1)
-        
         # Move gate and truth table to Alice
         self.play(
             gate.animate.next_to(alice, DOWN, buff=1),
             truth_table.animate.next_to(alice, DOWN * 3, buff=1),
         )
         self.wait(1)
-        
         # Store gate and truth table for later use
         self.gate = gate
         self.truth_table = truth_table
-        
         # Clean up
         self.play(FadeOut(step_text))
 
@@ -734,31 +689,25 @@ class SingleGarbledGateAnimation(Scene):
         step_text = Text("Step 2: Alice garbles the gate", font_size=30)
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
-        
         # Create garbled table
         garbled_table = self.create_garbled_table(RIGHT * 2)
-        
         # Create label mapping
         label_mapping = self.create_label_mapping(RIGHT * 2 + UP * 2)
-        
         # Show Alice creating the garbled table and label mapping
         self.play(
             ReplacementTransform(self.truth_table.copy(), garbled_table),
             Create(label_mapping),
         )
         self.wait(1)
-        
         # Move garbled table and label mapping to Alice
         self.play(
             garbled_table.animate.next_to(alice, DOWN * 3, buff=1),
             label_mapping.animate.next_to(alice, DOWN * 5, buff=1),
         )
         self.wait(1)
-        
         # Store garbled table and label mapping for later use
         self.garbled_table = garbled_table
         self.label_mapping = label_mapping
-        
         # Clean up
         self.play(FadeOut(step_text))
 
@@ -769,7 +718,6 @@ class SingleGarbledGateAnimation(Scene):
         )
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
-        
         # Create arrows for transfer
         gate_arrow = Arrow(
             alice.get_right() + RIGHT * 0.5,
@@ -777,31 +725,25 @@ class SingleGarbledGateAnimation(Scene):
             buff=0.2,
             color=YELLOW_C,
         )
-        
         table_arrow = Arrow(
             self.garbled_table.get_right() + RIGHT * 0.5,
             bob.get_bottom() + DOWN * 2,
             buff=0.2,
             color=YELLOW_C,
         )
-        
         # Show transfer
         self.play(Create(gate_arrow), Create(table_arrow))
-        
         # Copy gate and garbled table to Bob
         gate_copy = self.gate.copy()
         garbled_table_copy = self.garbled_table.copy()
-        
         self.play(
             gate_copy.animate.next_to(bob, DOWN, buff=1),
             garbled_table_copy.animate.next_to(bob, DOWN * 3, buff=1),
         )
         self.wait(1)
-        
         # Store Bob's copies
         self.bob_gate = gate_copy
         self.bob_garbled_table = garbled_table_copy
-        
         # Clean up
         self.play(
             FadeOut(step_text),
@@ -816,61 +758,49 @@ class SingleGarbledGateAnimation(Scene):
         )
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
-        
         # Create Bob's input labels
         input_a = Text("Input A=1 → k₁ᵃ", font_size=20, color=YELLOW)
         input_a.next_to(self.bob_gate, LEFT, buff=0.5)
-        
         input_b = Text("Input B=1 → k₁ᵇ", font_size=20, color=YELLOW)
         input_b.next_to(self.bob_gate, LEFT + DOWN, buff=0.5)
-        
         # Show Bob's inputs
         self.play(Write(input_a), Write(input_b))
         self.wait(1)
-        
         # Highlight the corresponding entry in the garbled table (entry4)
         highlight = SurroundingRectangle(
             self.bob_garbled_table[1][4], color=YELLOW
         )
         self.play(Create(highlight))
         self.wait(1)
-        
         # Show Bob decrypting the output
         decrypt_text = Text("Decrypt to get k₁ᵒᵘᵗ", font_size=20, color=GREEN)
         decrypt_text.next_to(highlight, RIGHT, buff=0.5)
         self.play(Write(decrypt_text))
         self.wait(1)
-        
         # Show final output
         output_text = Text("Output: A∧B = 1", font_size=24, color=GREEN)
         output_text.next_to(bob, RIGHT, buff=1)
-        
         output_arrow = Arrow(
             self.bob_garbled_table.get_right() + RIGHT * 0.5,
             output_text.get_left() + LEFT * 0.5,
             buff=0.2,
             color=GREEN,
         )
-        
         self.play(Create(output_arrow), Write(output_text))
         self.wait(1)
-        
         # Explain security properties
         security_text1 = Text(
             "• Bob learns only the output for his specific inputs",
             font_size=18
         )
         security_text1.next_to(step_text, DOWN, buff=0.3)
-        
         security_text2 = Text(
             "• Alice doesn't learn Bob's inputs",
             font_size=18
         )
         security_text2.next_to(security_text1, DOWN, buff=0.2)
-        
         self.play(Write(security_text1), Write(security_text2))
         self.wait(2)
-        
         # Clean up
         self.play(
             FadeOut(step_text),
