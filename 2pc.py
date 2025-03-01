@@ -3,43 +3,27 @@ from manim import (
     Scene,
     config,
     # Basic geometric shapes
-    Arc,
     Circle,
-    Dot,
-    LabeledDot,
     Line,
-    Polygon,
     Rectangle,
-    Square,
     # Arrows and lines
     Arrow,
     CurvedArrow,
-    DashedLine,
     # Text and math
     MathTex,
-    Table,
     Tex,
     Text,
     # Groups and transformations
     SurroundingRectangle,
-    Transform,
     VGroup,
     # Animation methods
     Create,
-    Cross,
-    FadeIn,
     FadeOut,
-    FadeToColor,
-    Indicate,
     ReplacementTransform,
-    Wait,
     Write,
     # Colors
     BLUE,
     GREEN,
-    ORANGE,
-    PINK,
-    PURPLE,
     RED,
     WHITE,
     YELLOW,
@@ -48,7 +32,6 @@ from manim import (
     DOWN,
     LEFT,
     ORIGIN,
-    PI,
     RIGHT,
     TAU,
     UP,
@@ -66,7 +49,8 @@ class ObliviousTransferAnimation(Scene):
 
         # Introduction text
         intro_text = Text(
-            "A cryptographic primitive where the sender doesn't know which message was received",
+            "A cryptographic primitive where the sender doesn't know "
+            "which message was received",
             font_size=24,
         )
         intro_text.next_to(title, DOWN)
@@ -87,7 +71,9 @@ class ObliviousTransferAnimation(Scene):
         self.play(Create(messages))
 
         # Show Bob's choice
-        choice_text = Text("Bob wants to receive m₁", font_size=24, color=YELLOW)
+        choice_text = Text(
+            "Bob wants to receive m₁", font_size=24, color=YELLOW
+        )
         choice_text.next_to(receiver, DOWN, buff=0.8)
 
         choice_arrow = Arrow(
@@ -107,7 +93,8 @@ class ObliviousTransferAnimation(Scene):
 
         # Show the challenge of OT
         challenge_text = Text(
-            "Challenge: Bob should receive only m₁ without Alice knowing his choice",
+            "Challenge: Bob should receive only m₁ without Alice knowing "
+            "his choice",
             font_size=24,
         )
         challenge_text.to_edge(DOWN, buff=1)
@@ -127,7 +114,8 @@ class ObliviousTransferAnimation(Scene):
 
         # Final explanation
         final_text = Text(
-            "Oblivious Transfer is a fundamental building block for secure computation",
+            "Oblivious Transfer is a fundamental building block for secure "
+            "computation",
             font_size=24,
         )
         final_text.to_edge(DOWN, buff=1)
@@ -231,7 +219,9 @@ class ObliviousTransferAnimation(Scene):
         # keys.add(keys_title)
 
         # Show Bob's choice (pk1 is the "real" key)
-        choice_indicator = Text("(Bob knows the secret key only for pk₁)", font_size=16)
+        choice_indicator = Text(
+            "(Bob knows the secret key only for pk₁)", font_size=16
+        )
         choice_indicator.next_to(keys, DOWN, buff=0.3)
 
         self.play(Write(step1_text))
@@ -251,10 +241,11 @@ class ObliviousTransferAnimation(Scene):
             sender.get_center() + RIGHT * 2,
             buff=0.2,
             color=YELLOW_C,
-            # stroke_opacity=0.5,  # Set the opacity to make the arrow less obstructive
         )
 
-        self.play(ReplacementTransform(step1_text, step2_text), Create(key_transfer))
+        self.play(
+            ReplacementTransform(step1_text, step2_text), Create(key_transfer)
+        )
 
         # Animate keys moving to Alice
         keys_copy = keys.copy()
@@ -299,7 +290,7 @@ class ObliviousTransferAnimation(Scene):
         encrypted_messages.arrange(RIGHT, buff=0.3)
         encrypted_messages.next_to(sender, DOWN, buff=3)
         # Adjust the scene's bottom edge instead of moving messages up
-        self.camera.frame_height = 11  # Increase frame height to show more space below
+        self.camera.frame_height = 11  # Increase frame height
 
         self.play(
             ReplacementTransform(step2_text, step3_text),
@@ -339,11 +330,12 @@ class ObliviousTransferAnimation(Scene):
             encrypted_messages.get_right() + RIGHT * 3.5,
             buff=0.2,
             color=YELLOW_C,
-            stroke_opacity=0.5,  # Set the opacity to make the arrow less obstructive
+            stroke_opacity=0.5,
         )
 
         self.play(
-            ReplacementTransform(step3_text, step4_text), Create(message_transfer)
+            ReplacementTransform(step3_text, step4_text),
+            Create(message_transfer)
         )
 
         # Animate messages moving to Bob
@@ -383,7 +375,9 @@ class ObliviousTransferAnimation(Scene):
         )
 
         # Highlight the message Bob can decrypt
-        highlight = SurroundingRectangle(encrypted_messages_copy[1], color=YELLOW)
+        highlight = SurroundingRectangle(
+            encrypted_messages_copy[1], color=YELLOW
+        )
         self.play(Create(highlight))
         self.wait(1)
 
@@ -397,7 +391,7 @@ class ObliviousTransferAnimation(Scene):
         # Position the final message to the left of Bob
         final_message.next_to(receiver, DOWN, buff=0.2)
 
-        # Show an arrow indicating the decryption process from the encrypted message to the final message
+        # Show an arrow indicating the decryption process
         decrypt_arrow = CurvedArrow(
             encrypted_messages_copy[1].get_top() + UP * 0.1,
             final_message.get_right() + RIGHT * 0.1,
@@ -410,12 +404,15 @@ class ObliviousTransferAnimation(Scene):
         decrypt_label.scale(0.2)  # Make it smaller
         decrypt_label.set_color(GREEN)  # Set color to green
         # Position it at the midpoint of the curve
-        midpoint = decrypt_arrow.point_from_proportion(0.5)
         decrypt_label.move_to(
             final_message.get_right() + RIGHT * 0.5
         )  # Offset to be visible next to the arrow
 
-        self.play(Create(decrypt_arrow), Create(final_message), Write(decrypt_label))
+        self.play(
+            Create(decrypt_arrow),
+            Create(final_message),
+            Write(decrypt_label)
+        )
         self.wait(1)
 
         # Step 6: Security properties
@@ -465,7 +462,8 @@ class SingleGarbledGateAnimation(Scene):
 
         # Introduction text
         intro_text = Text(
-            "A garbled gate allows computation on encrypted data without revealing inputs",
+            "A garbled gate allows computation on encrypted data "
+            "without revealing inputs",
             font_size=24,
         )
         intro_text.next_to(title, DOWN)
@@ -493,7 +491,8 @@ class SingleGarbledGateAnimation(Scene):
 
         # Final explanation
         final_text = Text(
-            "Garbled circuits enable secure computation without revealing private inputs",
+            "Garbled circuits enable secure computation "
+            "without revealing private inputs",
             font_size=24,
         )
         final_text.to_edge(DOWN, buff=1)
@@ -764,7 +763,10 @@ class SingleGarbledGateAnimation(Scene):
         self.play(FadeOut(step_text))
 
     def animate_gate_transfer(self, alice, bob):
-        step_text = Text("Step 3: Alice sends the garbled gate and labels to Bob", font_size=30)
+        step_text = Text(
+            "Step 3: Alice sends the garbled gate and labels to Bob",
+            font_size=30
+        )
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
         
@@ -801,10 +803,17 @@ class SingleGarbledGateAnimation(Scene):
         self.bob_garbled_table = garbled_table_copy
         
         # Clean up
-        self.play(FadeOut(step_text), FadeOut(gate_arrow), FadeOut(table_arrow))
+        self.play(
+            FadeOut(step_text),
+            FadeOut(gate_arrow),
+            FadeOut(table_arrow)
+        )
 
     def animate_evaluation(self, bob):
-        step_text = Text("Step 4: Bob evaluates the garbled gate with inputs A=1, B=1", font_size=30)
+        step_text = Text(
+            "Step 4: Bob evaluates the garbled gate with inputs A=1, B=1",
+            font_size=30
+        )
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
         
@@ -820,7 +829,9 @@ class SingleGarbledGateAnimation(Scene):
         self.wait(1)
         
         # Highlight the corresponding entry in the garbled table (entry4)
-        highlight = SurroundingRectangle(self.bob_garbled_table[1][4], color=YELLOW)
+        highlight = SurroundingRectangle(
+            self.bob_garbled_table[1][4], color=YELLOW
+        )
         self.play(Create(highlight))
         self.wait(1)
         
@@ -845,10 +856,16 @@ class SingleGarbledGateAnimation(Scene):
         self.wait(1)
         
         # Explain security properties
-        security_text1 = Text("• Bob learns only the output for his specific inputs", font_size=18)
+        security_text1 = Text(
+            "• Bob learns only the output for his specific inputs",
+            font_size=18
+        )
         security_text1.next_to(step_text, DOWN, buff=0.3)
         
-        security_text2 = Text("• Alice doesn't learn Bob's inputs", font_size=18)
+        security_text2 = Text(
+            "• Alice doesn't learn Bob's inputs",
+            font_size=18
+        )
         security_text2.next_to(security_text1, DOWN, buff=0.2)
         
         self.play(Write(security_text1), Write(security_text2))
