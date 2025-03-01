@@ -343,6 +343,20 @@ gui = ["dearpygui (>=1.0.0)"]
 jupyterlab = ["jupyterlab (>=3.0.0)", "notebook (>=6.0.0)"]
 
 [[package]]
+name = "manim-fontawesome"
+version = "6.5.1"
+description = "Font Awesome SVG's for Manim"
+optional = false
+python-versions = ">=3.9,<3.13"
+files = [
+    {file = "manim_fontawesome-6.5.1-py3-none-any.whl", hash = "sha256:cf541f77b6dd473b63c020c56a0051378e4aac38018d771255c89ef10a947bab"},
+    {file = "manim_fontawesome-6.5.1.tar.gz", hash = "sha256:6e9d2b460e7483076b641e239917f272fdee6d10f28cacbc093a8b77535828c7"},
+]
+
+[package.dependencies]
+manim = ">=0.3,<=1.0"
+
+[[package]]
 name = "manimpango"
 version = "0.6.0"
 description = "Bindings for Pango for using with Manim."
@@ -1190,4 +1204,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.12,<3.13"
-content-hash = "a31d7e3644b488be2ca353c21a98de59b1770918b14234f03f99b52c0f376f90"
+content-hash = "757b1e63b989f9ba81255755d07be07e2606409066efd5be88afa10758ac69e5"

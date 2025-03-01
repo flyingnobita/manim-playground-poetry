@@ -9,6 +9,7 @@ readme = "README.md"
 python = ">=3.12,<3.13"
 manim = "^0.19.0"
 flake8 = "^7.1.2"
+manim-fontawesome = "^6.5.1"
 
 
 [build-system]
