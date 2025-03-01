@@ -43,7 +43,7 @@ ENV/
 env/
 
 # Manim
-**/partial_movie_files/**
+/media/**
 
 # Latex
 texput.log
