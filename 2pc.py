@@ -1,41 +1,45 @@
-from manim import (
-    # Scenes and configuration
-    Scene,
-    config,
-    # Basic geometric shapes
-    Circle,
-    Line,
-    Rectangle,
-    # Arrows and lines
-    Arrow,
-    CurvedArrow,
-    # Text and math
-    MathTex,
-    Tex,
-    Text,
-    # Groups and transformations
-    SurroundingRectangle,
-    VGroup,
-    # Animation methods
-    Create,
-    FadeOut,
-    ReplacementTransform,
-    Write,
-    # Colors
-    BLUE,
-    GREEN,
-    RED,
-    WHITE,
-    YELLOW,
-    YELLOW_C,
-    # Constants and directions
-    DOWN,
-    LEFT,
-    ORIGIN,
-    RIGHT,
-    TAU,
-    UP,
-)
+from manim import *
+
+# from manim import (
+#     # Scenes and configuration
+#     Scene,
+#     MovingCameraScene,
+#     config,
+#     # Basic geometric shapes
+#     Circle,
+#     Line,
+#     NumberPlane,
+#     Rectangle,
+#     # Arrows and lines
+#     Arrow,
+#     CurvedArrow,
+#     # Text and math
+#     MathTex,
+#     Tex,
+#     Text,
+#     # Groups and transformations
+#     SurroundingRectangle,
+#     VGroup,
+#     # Animation methods
+#     Create,
+#     FadeOut,
+#     ReplacementTransform,
+#     Write,
+#     # Colors
+#     BLUE,
+#     GREEN,
+#     RED,
+#     WHITE,
+#     YELLOW,
+#     YELLOW_C,
+#     # Constants and directions
+#     DOWN,
+#     LEFT,
+#     ORIGIN,
+#     RIGHT,
+#     TAU,
+#     UP,
+# )
 from manim_fontawesome import solid
 
 
@@ -71,9 +75,7 @@ class ObliviousTransferAnimation(Scene):
         self.play(Create(messages))
 
         # Show Bob's choice
-        choice_text = Text(
-            "Bob wants to receive m₁", font_size=24, color=YELLOW
-        )
+        choice_text = Text("Bob wants to receive m₁", font_size=24, color=YELLOW)
         choice_text.next_to(receiver, DOWN, buff=0.8)
 
         choice_arrow = Arrow(
@@ -93,8 +95,7 @@ class ObliviousTransferAnimation(Scene):
 
         # Show the challenge of OT
         challenge_text = Text(
-            "Challenge: Bob should receive only m₁ without Alice knowing "
-            "his choice",
+            "Challenge: Bob should receive only m₁ without Alice knowing " "his choice",
             font_size=24,
         )
         challenge_text.to_edge(DOWN, buff=1)
@@ -219,9 +220,7 @@ class ObliviousTransferAnimation(Scene):
         # keys.add(keys_title)
 
         # Show Bob's choice (pk1 is the "real" key)
-        choice_indicator = Text(
-            "(Bob knows the secret key only for pk₁)", font_size=16
-        )
+        choice_indicator = Text("(Bob knows the secret key only for pk₁)", font_size=16)
         choice_indicator.next_to(keys, DOWN, buff=0.3)
 
         self.play(Write(step1_text))
@@ -243,9 +242,7 @@ class ObliviousTransferAnimation(Scene):
             color=YELLOW_C,
         )
 
-        self.play(
-            ReplacementTransform(step1_text, step2_text), Create(key_transfer)
-        )
+        self.play(ReplacementTransform(step1_text, step2_text), Create(key_transfer))
 
         # Animate keys moving to Alice
         keys_copy = keys.copy()
@@ -334,8 +331,7 @@ class ObliviousTransferAnimation(Scene):
         )
 
         self.play(
-            ReplacementTransform(step3_text, step4_text),
-            Create(message_transfer)
+            ReplacementTransform(step3_text, step4_text), Create(message_transfer)
         )
 
         # Animate messages moving to Bob
@@ -375,9 +371,7 @@ class ObliviousTransferAnimation(Scene):
         )
 
         # Highlight the message Bob can decrypt
-        highlight = SurroundingRectangle(
-            encrypted_messages_copy[1], color=YELLOW
-        )
+        highlight = SurroundingRectangle(encrypted_messages_copy[1], color=YELLOW)
         self.play(Create(highlight))
         self.wait(1)
 
@@ -408,11 +402,7 @@ class ObliviousTransferAnimation(Scene):
             final_message.get_right() + RIGHT * 0.5
         )  # Offset to be visible next to the arrow
 
-        self.play(
-            Create(decrypt_arrow),
-            Create(final_message),
-            Write(decrypt_label)
-        )
+        self.play(Create(decrypt_arrow), Create(final_message), Write(decrypt_label))
         self.wait(1)
 
         # Step 6: Security properties
@@ -452,27 +442,38 @@ class ObliviousTransferAnimation(Scene):
         self.play(FadeOut(step6_text), FadeOut(property1), FadeOut(property2))
 
 
-class SingleGarbledGateAnimation(Scene):
+class SingleGarbledGateAnimation(MovingCameraScene):
     def construct(self):
+        # # Show Coordinates
+        # number_plane = NumberPlane(
+        #     background_line_style={
+        #         "stroke_color": TEAL,
+        #         "stroke_width": 4,
+        #         "stroke_opacity": 0.6,
+        #     }
+        # )
+        # self.add(number_plane)
+
         # Title
         title = Text("Garbled Gate in Two-Party Computation", font_size=40)
-        title.to_edge(UP)
-        self.play(Write(title))
+        title.center()
+        self.play(self.camera.frame.animate.scale(1), Write(title))
         self.wait(1)
 
         # Introduction text
         intro_text = Text(
-            "A garbled gate allows computation on encrypted data "
-            "without revealing inputs",
-            font_size=24,
+            "A garbled gate allows multi-party computation without revealing inputs to other parties",
+            font_size=20,
         )
         intro_text.next_to(title, DOWN)
         self.play(Write(intro_text))
         self.wait(1)
 
+        self.play(FadeOut(intro_text), FadeOut(title))
+
         # Create the two parties
-        alice = self.create_party("Alice (Garbler)", LEFT * 4.5 + UP * 1)
-        bob = self.create_party("Bob (Evaluator)", RIGHT * 4.5 + UP * 1)
+        alice = self.create_party("Alice (Garbler)", LEFT * 5 + UP * 2.5)
+        bob = self.create_party("Bob (Evaluator)", RIGHT * 5 + UP * 2.5)
 
         self.play(Create(alice), Create(bob))
         self.wait(1)
@@ -545,8 +546,7 @@ class SingleGarbledGateAnimation(Scene):
         # Output label
         label_out = Text("A∧B", font_size=20)
         label_out.next_to(output, RIGHT, buff=0.2)
-        gate.add(body, label, input_a, input_b, output, label_a, label_b,
-                 label_out)
+        gate.add(body, label, input_a, input_b, output, label_a, label_b, label_out)
         gate.move_to(position)
         return gate
 
@@ -621,8 +621,7 @@ class SingleGarbledGateAnimation(Scene):
         entry4_label.move_to(entry4.get_center())
         entry4_group = VGroup(entry4, entry4_label)
         # Arrange entries
-        entries = VGroup(entry1_group, entry2_group, entry3_group,
-                         entry4_group)
+        entries = VGroup(entry1_group, entry2_group, entry3_group, entry4_group)
         entries.arrange(DOWN, buff=0.3)
         # Add title above entries
         title.next_to(entries, UP, buff=0.3)
@@ -631,6 +630,7 @@ class SingleGarbledGateAnimation(Scene):
         # Add a border around the table
         border = SurroundingRectangle(garbled_table, color=WHITE, buff=0.2)
         garbled_table.add(border)
+        garbled_table.scale(0.8)
         garbled_table.move_to(position)
         return garbled_table
 
@@ -659,6 +659,7 @@ class SingleGarbledGateAnimation(Scene):
         # Add a border around the mapping
         border = SurroundingRectangle(mapping, color=WHITE, buff=0.2)
         mapping.add(border)
+        mapping.scale(0.8)
         mapping.move_to(position)
         return mapping
 
@@ -675,8 +676,9 @@ class SingleGarbledGateAnimation(Scene):
         self.wait(1)
         # Move gate and truth table to Alice
         self.play(
-            gate.animate.next_to(alice, DOWN, buff=1),
-            truth_table.animate.next_to(alice, DOWN * 3, buff=1),
+            gate.animate.next_to(alice, DOWN * 0.5, buff=1),
+            truth_table.animate.next_to(alice, DOWN * 2, buff=1),
+            # FadeOut(truth_table),
         )
         self.wait(1)
         # Store gate and truth table for later use
@@ -686,23 +688,40 @@ class SingleGarbledGateAnimation(Scene):
         self.play(FadeOut(step_text))
 
     def animate_garbling(self, alice):
-        step_text = Text("Step 2: Alice garbles the gate", font_size=30)
+        step_text = Text(
+            "Step 2: Alice garbles the gate by encrypting the outputs", font_size=30
+        )
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
-        # Create garbled table
-        garbled_table = self.create_garbled_table(RIGHT * 2)
+
+        # Make AND gate smaller and move it closer to Alice
+        self.play(self.gate.animate.scale(0.5))
+        self.play(self.gate.animate.next_to(alice, DOWN, buff=0.5))
+        self.wait(1)
+
         # Create label mapping
-        label_mapping = self.create_label_mapping(RIGHT * 2 + UP * 2)
+        label_mapping = self.create_label_mapping(LEFT * 2 + UP * 2)
+        # Create garbled table
+        garbled_table = self.create_garbled_table(RIGHT * 2 + UP * 2)
         # Show Alice creating the garbled table and label mapping
         self.play(
-            ReplacementTransform(self.truth_table.copy(), garbled_table),
+            ReplacementTransform(self.truth_table, garbled_table),
             Create(label_mapping),
         )
         self.wait(1)
         # Move garbled table and label mapping to Alice
         self.play(
-            garbled_table.animate.next_to(alice, DOWN * 3, buff=1),
-            label_mapping.animate.next_to(alice, DOWN * 5, buff=1),
+            garbled_table.animate.scale(0.5),
+            label_mapping.animate.scale(0.5),
+        )
+        self.play(
+            label_mapping.animate.next_to(alice, DOWN * 6),
+        )
+        self.play(
+            label_mapping.animate.move_to(label_mapping.get_center() + LEFT * 0.5),
+        )
+        self.play(
+            garbled_table.animate.next_to(label_mapping, RIGHT, buff=0.5),
         )
         self.wait(1)
         # Store garbled table and label mapping for later use
@@ -713,8 +732,7 @@ class SingleGarbledGateAnimation(Scene):
 
     def animate_gate_transfer(self, alice, bob):
         step_text = Text(
-            "Step 3: Alice sends the garbled gate and labels to Bob",
-            font_size=30
+            "Step 3: Alice sends the garbled gate and labels to Bob", font_size=30
         )
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
@@ -725,20 +743,15 @@ class SingleGarbledGateAnimation(Scene):
             buff=0.2,
             color=YELLOW_C,
         )
-        table_arrow = Arrow(
-            self.garbled_table.get_right() + RIGHT * 0.5,
-            bob.get_bottom() + DOWN * 2,
-            buff=0.2,
-            color=YELLOW_C,
-        )
+
         # Show transfer
-        self.play(Create(gate_arrow), Create(table_arrow))
+        self.play(Create(gate_arrow))
         # Copy gate and garbled table to Bob
         gate_copy = self.gate.copy()
         garbled_table_copy = self.garbled_table.copy()
         self.play(
-            gate_copy.animate.next_to(bob, DOWN, buff=1),
-            garbled_table_copy.animate.next_to(bob, DOWN * 3, buff=1),
+            gate_copy.animate.next_to(bob, DOWN, buff=0.5),
+            garbled_table_copy.animate.next_to(bob, DOWN * 7 + LEFT * 0.1),
         )
         self.wait(1)
         # Store Bob's copies
@@ -748,28 +761,24 @@ class SingleGarbledGateAnimation(Scene):
         self.play(
             FadeOut(step_text),
             FadeOut(gate_arrow),
-            FadeOut(table_arrow)
         )
 
     def animate_evaluation(self, bob):
         step_text = Text(
-            "Step 4: Bob evaluates the garbled gate with inputs A=1, B=1",
-            font_size=30
+            "Step 4: Bob evaluates the garbled gate with inputs A=1, B=1", font_size=30
         )
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
         # Create Bob's input labels
         input_a = Text("Input A=1 → k₁ᵃ", font_size=20, color=YELLOW)
-        input_a.next_to(self.bob_gate, LEFT, buff=0.5)
+        input_a.next_to(self.bob_gate, LEFT + UP * 0.5, buff=0.1)
         input_b = Text("Input B=1 → k₁ᵇ", font_size=20, color=YELLOW)
-        input_b.next_to(self.bob_gate, LEFT + DOWN, buff=0.5)
+        input_b.next_to(self.bob_gate, LEFT + DOWN * 0.5, buff=0.1)
         # Show Bob's inputs
         self.play(Write(input_a), Write(input_b))
         self.wait(1)
         # Highlight the corresponding entry in the garbled table (entry4)
-        highlight = SurroundingRectangle(
-            self.bob_garbled_table[1][4], color=YELLOW
-        )
+        highlight = SurroundingRectangle(self.bob_garbled_table[1][3], color=YELLOW)
         self.play(Create(highlight))
         self.wait(1)
         # Show Bob decrypting the output
@@ -778,26 +787,42 @@ class SingleGarbledGateAnimation(Scene):
         self.play(Write(decrypt_text))
         self.wait(1)
         # Show final output
-        output_text = Text("Output: A∧B = 1", font_size=24, color=GREEN)
-        output_text.next_to(bob, RIGHT, buff=1)
-        output_arrow = Arrow(
+        self.play(
+            bob.animate.move_to(bob.get_center() + LEFT * 2),
+            input_a.animate.move_to(input_a.get_center() + LEFT * 2),
+            input_b.animate.move_to(input_b.get_center() + LEFT * 2),
+            self.bob_gate.animate.move_to(self.bob_gate.get_center() + LEFT * 2),
+        )
+        self.wait(1)
+
+        output_text = Text("Output: A∧B = 1", font_size=18, color=GREEN)
+        output_text.next_to(bob, RIGHT, buff=0)
+        output_arrow = CurvedArrow(
             self.bob_garbled_table.get_right() + RIGHT * 0.5,
-            output_text.get_left() + LEFT * 0.5,
-            buff=0.2,
+            self.bob_garbled_table.get_right() + RIGHT * 0.5 + UP * 3,
             color=GREEN,
         )
-        self.play(Create(output_arrow), Write(output_text))
+        # Add a "decrypted" label next to the arrow
+        decrypt_label = solid.unlock.copy()
+        decrypt_label.scale(0.2)  # Make it smaller
+        decrypt_label.set_color(GREEN)  # Set color to green
+        # Position it at the midpoint of the curve
+        decrypt_label.move_to(
+            output_arrow.get_right() + RIGHT * 0.5
+        )  # Offset to be visible next to the arrow
+
+        self.play(
+            Create(output_arrow),
+            Write(output_text),
+            Create(decrypt_label),
+        )
         self.wait(1)
         # Explain security properties
         security_text1 = Text(
-            "• Bob learns only the output for his specific inputs",
-            font_size=18
+            "• Bob learns only the output for his specific inputs", font_size=18
         )
         security_text1.next_to(step_text, DOWN, buff=0.3)
-        security_text2 = Text(
-            "• Alice doesn't learn Bob's inputs",
-            font_size=18
-        )
+        security_text2 = Text("• Alice doesn't learn Bob's inputs", font_size=18)
         security_text2.next_to(security_text1, DOWN, buff=0.2)
         self.play(Write(security_text1), Write(security_text2))
         self.wait(2)
@@ -810,14 +835,7 @@ class SingleGarbledGateAnimation(Scene):
             FadeOut(decrypt_text),
             FadeOut(output_text),
             FadeOut(output_arrow),
+            FadeOut(decrypt_label),
             FadeOut(security_text1),
             FadeOut(security_text2),
         )
-
-
-if __name__ == "__main__":
-    config.pixel_height = 720
-    config.pixel_width = 1280
-    config.frame_rate = 30
-    scene = SingleGarbledGateAnimation()
-    scene.render()
