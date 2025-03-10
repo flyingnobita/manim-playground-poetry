@@ -1,65 +1,25 @@
 from manim import *
-
-# from manim import (
-#     # Scenes and configuration
-#     Scene,
-#     MovingCameraScene,
-#     config,
-#     # Basic geometric shapes
-#     Circle,
-#     Line,
-#     NumberPlane,
-#     Rectangle,
-#     # Arrows and lines
-#     Arrow,
-#     CurvedArrow,
-#     # Text and math
-#     MathTex,
-#     Tex,
-#     Text,
-#     # Groups and transformations
-#     SurroundingRectangle,
-#     VGroup,
-#     # Animation methods
-#     Create,
-#     FadeOut,
-#     ReplacementTransform,
-#     Write,
-#     # Colors
-#     BLUE,
-#     GREEN,
-#     RED,
-#     WHITE,
-#     YELLOW,
-#     YELLOW_C,
-#     # Constants and directions
-#     DOWN,
-#     LEFT,
-#     ORIGIN,
-#     RIGHT,
-#     TAU,
-#     UP,
-# )
 from manim_fontawesome import solid
+
+from util.intro import displayLogo, displayTitle
+from util.utils import displayNumberPlane
 
 
 class ObliviousTransferAnimation(Scene):
     def construct(self):
-        # Title
-        title = Text("Oblivious Transfer (OT) Protocol", font_size=40)
-        title.to_edge(UP)
-        self.play(Write(title))
-        self.wait(1)
 
-        # Introduction text
-        intro_text = Text(
-            "A cryptographic primitive where the sender doesn't know "
-            "which message was received",
-            font_size=24,
+        # Show Coordinates
+        # displayNumberPlane(self)
+
+        # Display the logo
+        displayLogo(self)
+
+        # Display title and introduction
+        displayTitle(
+            self,
+            "Oblivious Transfer (OT) Protocol",
+            "Ensure receiver gets one value without sender knowing",
         )
-        intro_text.next_to(title, DOWN)
-        self.play(Write(intro_text))
-        self.wait(1)
 
         # Create the two parties
         sender = self.create_party("Alice (Sender)", LEFT * 4.5 + UP * 1.5)
@@ -444,32 +404,19 @@ class ObliviousTransferAnimation(Scene):
 
 class SingleGarbledGateAnimation(MovingCameraScene):
     def construct(self):
-        # # Show Coordinates
-        # number_plane = NumberPlane(
-        #     background_line_style={
-        #         "stroke_color": TEAL,
-        #         "stroke_width": 4,
-        #         "stroke_opacity": 0.6,
-        #     }
-        # )
-        # self.add(number_plane)
 
-        # Title
-        title = Text("Garbled Gate in Two-Party Computation", font_size=40)
-        title.center()
-        self.play(self.camera.frame.animate.scale(1), Write(title))
-        self.wait(1)
+        # Show Coordinates
+        # displayNumberPlane(self)
 
-        # Introduction text
-        intro_text = Text(
-            "A garbled gate allows multi-party computation without revealing inputs to other parties",
-            font_size=20,
+        # Display the logo
+        displayLogo(self)
+
+        # Display title and introduction
+        displayTitle(
+            self,
+            "Garbled Gate in Two-Party Computation",
+            "A gate that hides its inputs and functionality",
         )
-        intro_text.next_to(title, DOWN)
-        self.play(Write(intro_text))
-        self.wait(1)
-
-        self.play(FadeOut(intro_text), FadeOut(title))
 
         # Create the two parties
         alice = self.create_party("Alice (Garbler)", LEFT * 5 + UP * 2.5)
@@ -492,8 +439,8 @@ class SingleGarbledGateAnimation(MovingCameraScene):
 
         # Final explanation
         final_text = Text(
-            "Garbled circuits enable secure computation "
-            "without revealing private inputs",
+            "Garbled circuits with oblivious transfer enable "
+            "secure computation without revealing inputs",
             font_size=24,
         )
         final_text.to_edge(DOWN, buff=1)
@@ -526,7 +473,7 @@ class SingleGarbledGateAnimation(MovingCameraScene):
         gate = VGroup()
         # Gate body
         body = Rectangle(height=1.2, width=1.5, color=WHITE)
-        body.set_fill(color=BLUE, opacity=0.2)
+        body.set_fill(color=GREEN, opacity=0.2)
         # Gate label
         label = Text("AND", font_size=24)
         label.move_to(body.get_center())
@@ -591,6 +538,7 @@ class SingleGarbledGateAnimation(MovingCameraScene):
         # Add a border around the table
         border = SurroundingRectangle(table, color=WHITE, buff=0.2)
         table.add(border)
+        table.scale(0.8)
         table.move_to(position)
         return table
 
@@ -602,22 +550,22 @@ class SingleGarbledGateAnimation(MovingCameraScene):
         # Create encrypted entries
         entry1 = Rectangle(height=0.6, width=2.5, color=WHITE)
         entry1.set_fill(color=RED, opacity=0.2)
-        entry1_label = Text("Enc(k₀ᵃ, k₀ᵇ, k₀ᵒᵘᵗ)", font_size=16)
+        entry1_label = Tex(r"$(0,0) | Enc_{P_{0,0}}(G(0,0))$", font_size=22)
         entry1_label.move_to(entry1.get_center())
         entry1_group = VGroup(entry1, entry1_label)
         entry2 = Rectangle(height=0.6, width=2.5, color=WHITE)
         entry2.set_fill(color=RED, opacity=0.2)
-        entry2_label = Text("Enc(k₀ᵃ, k₁ᵇ, k₀ᵒᵘᵗ)", font_size=16)
+        entry2_label = Tex(r"$(0,1) | Enc_{P_{0,1}}(G(0,1))$", font_size=22)
         entry2_label.move_to(entry2.get_center())
         entry2_group = VGroup(entry2, entry2_label)
         entry3 = Rectangle(height=0.6, width=2.5, color=WHITE)
         entry3.set_fill(color=RED, opacity=0.2)
-        entry3_label = Text("Enc(k₁ᵃ, k₀ᵇ, k₀ᵒᵘᵗ)", font_size=16)
+        entry3_label = Tex(r"$(1,0) | Enc_{P_{1,0}}(G(1,0))$", font_size=22)
         entry3_label.move_to(entry3.get_center())
         entry3_group = VGroup(entry3, entry3_label)
         entry4 = Rectangle(height=0.6, width=2.5, color=WHITE)
         entry4.set_fill(color=GREEN, opacity=0.2)
-        entry4_label = Text("Enc(k₁ᵃ, k₁ᵇ, k₁ᵒᵘᵗ)", font_size=16)
+        entry4_label = Tex(r"$(1,1) | Enc_{P_{1,1}}(G(1,1))$", font_size=22)
         entry4_label.move_to(entry4.get_center())
         entry4_group = VGroup(entry4, entry4_label)
         # Arrange entries
@@ -689,51 +637,48 @@ class SingleGarbledGateAnimation(MovingCameraScene):
 
     def animate_garbling(self, alice):
         step_text = Text(
-            "Step 2: Alice garbles the gate by encrypting the outputs", font_size=30
+            "Step 2: Alice garbles the gate by encrypting the outputs", font_size=25
         )
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
 
         # Make AND gate smaller and move it closer to Alice
+        self.play(self.gate.animate.set_fill(color=RED))
         self.play(self.gate.animate.scale(0.5))
         self.play(self.gate.animate.next_to(alice, DOWN, buff=0.5))
         self.wait(1)
 
-        # Create label mapping
-        label_mapping = self.create_label_mapping(LEFT * 2 + UP * 2)
         # Create garbled table
-        garbled_table = self.create_garbled_table(RIGHT * 2 + UP * 2)
+        garbled_table = self.create_garbled_table(UP * 1)
         # Show Alice creating the garbled table and label mapping
         self.play(
             ReplacementTransform(self.truth_table, garbled_table),
-            Create(label_mapping),
         )
         self.wait(1)
         # Move garbled table and label mapping to Alice
         self.play(
-            garbled_table.animate.scale(0.5),
-            label_mapping.animate.scale(0.5),
+            garbled_table.animate.scale(0.7),
+            # label_mapping.animate.scale(0.5),
         )
+        # self.play(
+        # label_mapping.animate.next_to(alice, DOWN * 6),
+        # )
+        # self.play(
+        # label_mapping.animate.move_to(label_mapping.get_center() + LEFT * 0.5),
+        # )
         self.play(
-            label_mapping.animate.next_to(alice, DOWN * 6),
-        )
-        self.play(
-            label_mapping.animate.move_to(label_mapping.get_center() + LEFT * 0.5),
-        )
-        self.play(
-            garbled_table.animate.next_to(label_mapping, RIGHT, buff=0.5),
+            # move the garbled table to the center of the scene
+            garbled_table.animate.next_to(alice, DOWN * 6),
         )
         self.wait(1)
         # Store garbled table and label mapping for later use
         self.garbled_table = garbled_table
-        self.label_mapping = label_mapping
+        # self.label_mapping = label_mapping
         # Clean up
         self.play(FadeOut(step_text))
 
     def animate_gate_transfer(self, alice, bob):
-        step_text = Text(
-            "Step 3: Alice sends the garbled gate and labels to Bob", font_size=30
-        )
+        step_text = Text("Step 3: Alice sends the garbled gate to Bob", font_size=30)
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
         # Create arrows for transfer
@@ -751,7 +696,7 @@ class SingleGarbledGateAnimation(MovingCameraScene):
         garbled_table_copy = self.garbled_table.copy()
         self.play(
             gate_copy.animate.next_to(bob, DOWN, buff=0.5),
-            garbled_table_copy.animate.next_to(bob, DOWN * 7 + LEFT * 0.1),
+            garbled_table_copy.animate.next_to(bob, DOWN * 6),
         )
         self.wait(1)
         # Store Bob's copies
@@ -770,9 +715,9 @@ class SingleGarbledGateAnimation(MovingCameraScene):
         step_text.to_edge(DOWN, buff=1)
         self.play(Write(step_text))
         # Create Bob's input labels
-        input_a = Text("Input A=1 → k₁ᵃ", font_size=20, color=YELLOW)
+        input_a = Text("Input A=1", font_size=20, color=YELLOW)
         input_a.next_to(self.bob_gate, LEFT + UP * 0.5, buff=0.1)
-        input_b = Text("Input B=1 → k₁ᵇ", font_size=20, color=YELLOW)
+        input_b = Text("Input B=1", font_size=20, color=YELLOW)
         input_b.next_to(self.bob_gate, LEFT + DOWN * 0.5, buff=0.1)
         # Show Bob's inputs
         self.play(Write(input_a), Write(input_b))
@@ -781,20 +726,27 @@ class SingleGarbledGateAnimation(MovingCameraScene):
         highlight = SurroundingRectangle(self.bob_garbled_table[1][3], color=YELLOW)
         self.play(Create(highlight))
         self.wait(1)
-        # Show Bob decrypting the output
-        decrypt_text = Text("Decrypt to get k₁ᵒᵘᵗ", font_size=20, color=GREEN)
-        decrypt_text.next_to(highlight, RIGHT, buff=0.5)
-        self.play(Write(decrypt_text))
-        self.wait(1)
+
         # Show final output
         self.play(
             bob.animate.move_to(bob.get_center() + LEFT * 2),
             input_a.animate.move_to(input_a.get_center() + LEFT * 2),
             input_b.animate.move_to(input_b.get_center() + LEFT * 2),
+            highlight.animate.move_to(highlight.get_center() + LEFT * 2),
             self.bob_gate.animate.move_to(self.bob_gate.get_center() + LEFT * 2),
+            self.bob_garbled_table.animate.move_to(
+                self.bob_garbled_table.get_center() + LEFT * 2
+            ),
         )
         self.wait(1)
 
+        # Show Bob decrypting the output
+        decrypt_text = Text("Decrypt to get G(1,1)", font_size=20, color=GREEN)
+        decrypt_text.next_to(highlight, RIGHT, buff=0.5)
+        self.play(Write(decrypt_text))
+        self.wait(1)
+
+        # Show the decrypted output
         output_text = Text("Output: A∧B = 1", font_size=18, color=GREEN)
         output_text.next_to(bob, RIGHT, buff=0)
         output_arrow = CurvedArrow(
@@ -819,13 +771,14 @@ class SingleGarbledGateAnimation(MovingCameraScene):
         self.wait(1)
         # Explain security properties
         security_text1 = Text(
-            "• Bob learns only the output for his specific inputs", font_size=18
+            "Bob learns only the output for his specific inputs. Alice doesn't learn Bob's inputs",
+            font_size=20,
         )
         security_text1.next_to(step_text, DOWN, buff=0.3)
-        security_text2 = Text("• Alice doesn't learn Bob's inputs", font_size=18)
-        security_text2.next_to(security_text1, DOWN, buff=0.2)
-        self.play(Write(security_text1), Write(security_text2))
-        self.wait(2)
+        # security_text2 = Text("• ", font_size=18)
+        # security_text2.next_to(security_text1, DOWN, buff=0.2)
+        self.play(Write(security_text1))
+        self.wait(4)
         # Clean up
         self.play(
             FadeOut(step_text),
@@ -837,5 +790,5 @@ class SingleGarbledGateAnimation(MovingCameraScene):
             FadeOut(output_arrow),
             FadeOut(decrypt_label),
             FadeOut(security_text1),
-            FadeOut(security_text2),
+            # FadeOut(security_text2),
         )
