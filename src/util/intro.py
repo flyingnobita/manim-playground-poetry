@@ -7,12 +7,10 @@ def displayLogo(self):
     """
     logo = ImageMobject("assets/flying_nobita_logo_upscale_no_bg.png")
     logo.scale(0.5)
-    logoText1 = Text("Flying", font_size=30)
+    logoText1 = Text("Flying", font_size=30, color=WHITE, font="DORAEMON")
     logoText1.next_to(logo, LEFT, buff=0.25)
-    logoText2 = Text("Nobita", font_size=30)
+    logoText2 = Text("Nobita", font_size=30, color="#ECAE5C", font="DORAEMON")
     logoText2.next_to(logo, RIGHT, buff=0.25)
-    logoText1.set_color(WHITE)
-    logoText2.set_color(WHITE)
     logoGroup = Group(logo, logoText1, logoText2)
     logoGroup.center()
 
